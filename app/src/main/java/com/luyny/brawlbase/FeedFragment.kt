@@ -1,12 +1,15 @@
 package com.luyny.brawlbase
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,7 +31,12 @@ class FeedFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var textPlayerName: TextView
+    private lateinit var apiResponse: ApiResponse
+    private lateinit var btnConfirm: Button
+    private lateinit var editPlayerTag: EditText
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +46,24 @@ class FeedFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_feed, container, false)
-        textPlayerName = view.findViewById(R.id.text_player_name)
-        getCurrentData()
+
+        btnConfirm = view.findViewById(R.id.btn_confirm_token)
+        editPlayerTag = view.findViewById(R.id.edit_player_tag)
+        recyclerView = view.findViewById(R.id.my_recycler_view)
+
+        btnConfirm.setOnClickListener {
+            it.isClickable = false
+            getCurrentData()
+        }
         return view
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -64,14 +84,13 @@ class FeedFragment : Fragment() {
             }
     }
 
-    private fun getCurrentData(){
+    private fun getCurrentData() {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor { chain ->
             val original = chain.request()
-
             val request = original.newBuilder()
-                    .addHeader("Authorization","Bearer " + getString(R.string.token))
-                    .build()
+                .addHeader("Authorization", "Bearer " + getString(R.string.token))
+                .build()
             return@addInterceptor chain.proceed(request)
         }
 
@@ -82,21 +101,36 @@ class FeedFragment : Fragment() {
             .build()
 
         val service = retrofit.create(BrawlStarsApi::class.java)
-        val call = service.getPlayerInfo(MainActivity.playerTag)
+        val call = service.getPlayerInfo(editPlayerTag.text.toString())
 
         call.enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.code() == 200) {
-                    textPlayerName.text = response.body().name
+                    apiResponse = response.body()
+                    viewManager = LinearLayoutManager(this@FeedFragment.context)
+                    viewAdapter = MyAdapter(apiResponse.brawlers!!)
+                    recyclerView.apply {
+                        // use this setting to improve performance if you know that changes
+                        // in content do not change the layout size of the RecyclerView
+                        setHasFixedSize(true)
+                        // use a linear layout manager
+                        layoutManager = viewManager
+                        // specify an viewAdapter (see also next example)
+                        adapter = viewAdapter
+                    }
                 } else {
-                    Toast.makeText(this@FeedFragment.context,response.errorBody().string(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@FeedFragment.context,
+                        response.errorBody().string(),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 print(t.message)
-                Toast.makeText(this@FeedFragment.context,"Falha ao realizar request.", Toast.LENGTH_LONG).show()
-
+                Toast.makeText(this@FeedFragment.context, "Request failed.", Toast.LENGTH_LONG)
+                    .show()
             }
         })
     }
