@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FeedFragment">
+    tools:context=".FeedFragment"
+    android:background="#3C677E">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,10 +38,11 @@
             android:layout_height="match_parent"
             android:layout_marginTop="64dp"
             android:scrollbars="vertical"
+            android:paddingHorizontal="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/my_text_view" />
+            tools:listitem="@layout/brawler_list_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

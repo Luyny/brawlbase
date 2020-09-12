@@ -2,8 +2,10 @@ package com.luyny.brawlbase
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 class MyAdapter(private val brawlerList: List<Brawler>) :
@@ -13,26 +15,38 @@ class MyAdapter(private val brawlerList: List<Brawler>) :
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder.
     // Each data item is just a string in this case that is shown in a TextView.
-    class MyViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+    class MyViewHolder(val viewHolder: CardView) : RecyclerView.ViewHolder(viewHolder)
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         // create a new view
-        val textView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.my_text_view, parent, false) as TextView
+        val cardView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.brawler_list_item, parent, false) as CardView
         // set the view's size, margins, paddings and layout parameters
         //...
-        return MyViewHolder(textView)
+        return MyViewHolder(cardView)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.textView.setOnClickListener {
-            Toast.makeText(it.context,brawlerList[position].trophies!!.toString(),Toast.LENGTH_LONG).show()
+        val imageBrawlerPortrait = holder.viewHolder.findViewById<ImageView>(R.id.image_brawler_portrait)
+        val textBrawlerName = holder.viewHolder.findViewById<TextView>(R.id.text_brawler_name)
+        val textBrawlerTrophies = holder.viewHolder.findViewById<TextView>(R.id.text_brawler_trophies)
+
+        val brawler = brawlerList[position]
+        val id = brawler.id!!
+        holder.viewHolder.setOnClickListener {
+            Toast.makeText(
+                it.context,
+                brawler.trophies!!.toString(),
+                Toast.LENGTH_LONG
+            ).show()
         }
-        holder.textView.text = brawlerList[position].name
+        val context = imageBrawlerPortrait.context
+        val imgId = context.resources.getIdentifier("b$id", "drawable", context.packageName)
+        imageBrawlerPortrait.setImageResource(imgId)
+        textBrawlerName.text = brawler.name
+        textBrawlerTrophies.text = brawler.trophies.toString()
 
     }
 

@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import okhttp3.OkHttpClient
@@ -107,7 +108,7 @@ class FeedFragment : Fragment() {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.code() == 200) {
                     apiResponse = response.body()
-                    viewManager = LinearLayoutManager(this@FeedFragment.context)
+                    viewManager = GridLayoutManager(context, 3,LinearLayoutManager.VERTICAL,false)
                     viewAdapter = MyAdapter(apiResponse.brawlers!!)
                     recyclerView.apply {
                         // use this setting to improve performance if you know that changes
