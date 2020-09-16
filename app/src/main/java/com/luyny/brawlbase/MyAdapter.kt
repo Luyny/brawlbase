@@ -29,24 +29,23 @@ class MyAdapter(private val brawlerList: List<Brawler>) :
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val imageBrawlerPortrait = holder.viewHolder.findViewById<ImageView>(R.id.image_brawler_portrait)
+        val imageBrawlerPortrait =
+            holder.viewHolder.findViewById<ImageView>(R.id.image_brawler_portrait)
         val textBrawlerName = holder.viewHolder.findViewById<TextView>(R.id.text_brawler_name)
-        val textBrawlerTrophies = holder.viewHolder.findViewById<TextView>(R.id.text_brawler_trophies)
+        val textBrawlerTrophies =
+            holder.viewHolder.findViewById<TextView>(R.id.text_brawler_trophies)
 
         val brawler = brawlerList[position]
         val id = brawler.id!!
-        holder.viewHolder.setOnClickListener {
-            Toast.makeText(
-                it.context,
-                brawler.trophies!!.toString(),
-                Toast.LENGTH_LONG
-            ).show()
-        }
         val context = imageBrawlerPortrait.context
         val imgId = context.resources.getIdentifier("b$id", "drawable", context.packageName)
         imageBrawlerPortrait.setImageResource(imgId)
         textBrawlerName.text = brawler.name
         textBrawlerTrophies.text = brawler.trophies.toString()
+
+        holder.viewHolder.setOnClickListener {
+            Toast.makeText(context,brawler.name, Toast.LENGTH_SHORT).show()
+        }
 
     }
 
