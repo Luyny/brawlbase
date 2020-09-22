@@ -6,24 +6,33 @@ class ApiResponse {
 
     @SerializedName("club")
     var club: Club? = null
+
     @SerializedName("3vs3Victories")
     var threeVsThree: Int? = null
+
     //    @SerializedName("isQualifiedFromChampionshipChallenge")
 //    var isQualifiedFromChampionshipChallenge: Boolean? = null
     @SerializedName("icon")
     var icon: Icon? = null
+
     @SerializedName("tag")
     var tag: String? = null
+
     @SerializedName("name")
     var name: String? = null
+
     @SerializedName("trophies")
     var trophies: Int? = null
+
     @SerializedName("expLevel")
     var expLevel: Int? = null
+
     @SerializedName("expPoints")
     var expPoints: Int? = null
+
     @SerializedName("highestTrophies")
     var highestTrophies: Int? = null
+
     //    @SerializedName("powerPlayPoints")
 //    var powerPlayPoints: Int? = null
 //    @SerializedName("highestPowerPlayPoints")
@@ -43,18 +52,19 @@ class ApiResponse {
 class Brawler {
     @SerializedName("gadgets")
     var gadgets: List<Gadget>? = null
-    //    @SerializedName("starPowers")
+//    @SerializedName("starPowers")
 //    var starPowers: List<StarPower>? = null
     @SerializedName("id")
     var id: Int? = null
-    //    @SerializedName("rank")
-//    var rank: Int? = null
+    @SerializedName("rank")
+    var rank: Int? = null
     @SerializedName("trophies")
     var trophies: Int? = null
-    //    @SerializedName("highestTrophies")
-//    var highestTrophies: Int? = null
-//    @SerializedName("power")
-//    var power: Int? = null
+
+    @SerializedName("highestTrophies")
+    var highestTrophies: Int? = null
+    @SerializedName("power")
+    var power: Int? = null
     @SerializedName("name")
     var name: String? = null
 }
@@ -62,6 +72,7 @@ class Brawler {
 class Gadget {
     @SerializedName("name")
     var name: String? = null
+
     @SerializedName("id")
     var id: Int? = null
 
@@ -70,6 +81,7 @@ class Gadget {
 class StarPower {
     @SerializedName("name")
     var name: String? = null
+
     @SerializedName("id")
     var id: Int? = null
 
@@ -83,6 +95,7 @@ class Icon {
 class Club {
     @SerializedName("tag")
     var tag: String? = null
+
     @SerializedName("name")
     var name: String? = null
 }

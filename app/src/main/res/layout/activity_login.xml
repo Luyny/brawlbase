@@ -4,14 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DCDCDC"
+    android:background="@drawable/header_shape"
     tools:context=".activities.LoginActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lilita_one"
+        android:gravity="center"
+        android:text="BRAWL         \n           BASE"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_player_tag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.793" />
 
     <EditText
         android:id="@+id/edit_player_tag"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_shape"
+        android:background="@drawable/solid_round_shape"
         android:backgroundTint="#fff"
         android:ems="10"
         android:hint="Player Tag"
@@ -26,8 +40,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/round_shape"
-        android:backgroundTint="#ddf"
+        android:background="@drawable/solid_round_shape"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="#fff"
+        android:fontFamily="@font/lilita_one"
         android:paddingHorizontal="20dp"
         android:text="Confirm"
         app:layout_constraintEnd_toEndOf="parent"

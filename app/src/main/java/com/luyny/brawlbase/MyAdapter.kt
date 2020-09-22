@@ -4,26 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.luyny.brawlbase.fragments.BrawlerDetailsFragment
+import com.squareup.picasso.Picasso
 
-class MyAdapter(private val brawlerList: List<Brawler>) :
+class MyAdapter(private val brawlerList: List<Brawler>, private val supportFragmentManager: FragmentManager) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder.
-    // Each data item is just a string in this case that is shown in a TextView.
     class MyViewHolder(val viewHolder: CardView) : RecyclerView.ViewHolder(viewHolder)
 
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        // create a new view
         val cardView = LayoutInflater.from(parent.context)
             .inflate(R.layout.brawler_list_item, parent, false) as CardView
-        // set the view's size, margins, paddings and layout parameters
-        //...
         return MyViewHolder(cardView)
     }
 
@@ -39,12 +34,19 @@ class MyAdapter(private val brawlerList: List<Brawler>) :
         val id = brawler.id!!
         val context = imageBrawlerPortrait.context
         val imgId = context.resources.getIdentifier("b$id", "drawable", context.packageName)
-        imageBrawlerPortrait.setImageResource(imgId)
+
         textBrawlerName.text = brawler.name
         textBrawlerTrophies.text = brawler.trophies.toString()
+        imageBrawlerPortrait.setImageResource(imgId)
+//        Picasso.get().load(imgId).into(imageBrawlerPortrait)
 
         holder.viewHolder.setOnClickListener {
-            Toast.makeText(context,brawler.name, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context,brawler.name, Toast.LENGTH_SHORT).show()
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_main, BrawlerDetailsFragment(brawler))
+                .commit()
+
         }
 
     }
